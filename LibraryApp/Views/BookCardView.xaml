@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="LibraryApp.Views.BookCardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Margin="0,0,20,0">
+            <Button Content="⬅️ Назад в Библиотеку" 
+                    Command="{Binding GoBackCommand}" Margin="0,0,0,20"/>
+
+            <Border Width="200" Height="300" Background="#DDD" CornerRadius="5">
+                <TextBlock Text="[Обложка]" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <TextBlock Text="{Binding Title}" FontSize="18" FontWeight="Bold" Margin="0,10,0,5" TextWrapping="Wrap"/>
+            <TextBlock Text="{Binding Author}" FontStyle="Italic" Margin="0,0,0,10"/>
+
+            <Button Content="📖 Открыть для чтения" Margin="0,5"/>
+            <Button Content="🤖 Пересказ ИИ" Command="{Binding SummarizeAICommand}" Margin="0,5"/>
+            <Button Content="📝 Анализ / Суть" Margin="0,5"/>
+        </StackPanel>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                <TextBlock Text="Описание:" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" MaxHeight="100" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+                <TextBlock Text="{Binding Status, StringFormat='Статус: {0}'}" Margin="0,10,0,0"/>
+            </StackPanel>
+
+            <TabControl Grid.Row="1">
+                <TabItem Header="📖 Содержание">
+                    <TextBlock Text="Место для оглавления и закладок." Margin="10"/>
+                </TabItem>
+                <TabItem Header="✍️ Заметки">
+                    <TextBlock Text="Пользовательские заметки." Margin="10"/>
+                </TabItem>
+                <TabItem Header="🤖 ИИ-диалоги">
+                    <TextBlock Text="Чат с ИИ по этой книге." Margin="10"/>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>

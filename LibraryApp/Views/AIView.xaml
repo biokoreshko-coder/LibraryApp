@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="LibraryApp.Views.AIView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:LibraryApp.ViewModels"
+             xmlns:conv="clr-namespace:LibraryApp.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance vm:AIViewModel}"
+             d:DesignHeight="600" d:DesignWidth="1000">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="📊 Сводка Библиотеки" Command="{Binding SummarizeAllCommand}" Margin="5,0"/>
+            <Button Content="🧠 Размышления (Сравнение)" Command="{Binding CompareBooksCommand}" Margin="5,0"/>
+        </StackPanel>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding ChatHistory}" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                  BorderThickness="0" Margin="0,0,0,10">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:ChatMessage}">
+                    <Border Padding="10" Margin="0,5" CornerRadius="8"
+                            MaxWidth="700"
+                            HorizontalAlignment="{Binding IsUser, Converter={StaticResource BoolToAlignmentConverter}}">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="#F0F0F0"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsUser}" Value="True">
+                                        <Setter Property="Background" Value="#E0F7FA"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0" Text="{Binding InputMessage, UpdateSourceTrigger=PropertyChanged}" 
+                     Height="35" AcceptsReturn="True" Margin="0,0,10,0"/>
+
+            <Button Grid.Column="1" Content="Отправить" 
+                    Command="{Binding SendMessageCommand}" 
+                    Padding="15,0" Height="35"/>
+        </Grid>
+    </Grid>
+</UserControl>
